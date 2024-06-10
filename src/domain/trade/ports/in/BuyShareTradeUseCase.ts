@@ -30,17 +30,10 @@ export class BuyShareTradeUseCase
       userId: command.userId,
     });
 
-    if (!portfolio) {
-      throw new Error("Portfolio not found");
-    }
 
     const share = await this.retrieveShareByIdUseCase.execute({
       id: command.shareId,
     });
-
-    if (!share) {
-      throw new Error("Share not found");
-    }
 
     await this.addShareToPortfolioUseCase.execute({
       userId: command.userId,

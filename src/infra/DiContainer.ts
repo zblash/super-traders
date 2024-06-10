@@ -21,40 +21,84 @@ import { BuyShareTradeUseCase } from "../domain/trade/ports/in/BuyShareTradeUseC
 import { RetrieveAllTradesByShareAndUserUseCase } from "../domain/trade/ports/in/RetrieveAllTradesByShareAndUserUseCase";
 import { RetrieveAllTradesByShareUseCase } from "../domain/trade/ports/in/RetrieveAllTradesByShareUseCase";
 import { SellShareTradeUseCase } from "../domain/trade/ports/in/SellShareTradeUseCase";
+import { SharePortMockAdapter } from "../../test/mocks/SharePortMockAdapter";
+import { ShareRateUpdatePortMockAdapter } from "../../test/mocks/ShareRateUpdatePortMockAdapter";
+import { SharePort } from "../domain/share/ports/out/SharePort";
+import { ShareRateUpdatePort } from "../domain/share/ports/out/ShareRateUpdatePort";
+import { PortfolioPort } from "../domain/portfolio/ports/out/PortfolioPort";
+import { PortfolioPortMockAdapter } from "../../test/mocks/PortfolioPortMockAdapter";
+import { TradePort } from "../domain/trade/ports/out/TradePort";
+import { TradePortMockAdapter } from "../../test/mocks/TradePortMockAdapter";
 
 export const DiContainer = (function () {
   let diContainer: Container;
 
   function configureTestDependencies() {
-    if (!diContainer) {
-      return;
-    }
-
     diContainer.bind<UserPort>("UserPort").to(UserPortMockAdapter);
+    diContainer.bind<SharePort>("SharePort").to(SharePortMockAdapter);
+    diContainer
+      .bind<ShareRateUpdatePort>("ShareRateUpdatePort")
+      .to(ShareRateUpdatePortMockAdapter);
+    diContainer
+      .bind<PortfolioPort>("PortfolioPort")
+      .to(PortfolioPortMockAdapter);
+    diContainer.bind<TradePort>("TradePort").to(TradePortMockAdapter);
   }
 
   function configureDependencies() {}
 
   function configureDomainDependencies() {
-    if (!diContainer) {
-      return;
-    }
-
-    diContainer.bind<AddShareToPortfolioUseCase>("AddShareToPortfolioUseCase").to(AddShareToPortfolioUseCase);
-    diContainer.bind<CreatePortfolioUseCase>("CreatePortfolioUseCase").to(CreatePortfolioUseCase);
-    diContainer.bind<RemoveShareFromPortfolioUseCase>("RemoveShareFromPortfolioUseCase").to(RemoveShareFromPortfolioUseCase);
-    diContainer.bind<RetrieveAllPortfoliosByUserUseCase>("RetrieveAllPortfoliosByUserUseCase").to(RetrieveAllPortfoliosByUserUseCase);
-    diContainer.bind<RetrievePortfolioByIdUseCase>("RetrievePortfolioByIdUseCase").to(RetrievePortfolioByIdUseCase);
-    diContainer.bind<CreateShareUseCase>("CreateShareUseCase").to(CreateShareUseCase);
-    diContainer.bind<RetrieveAllSharesBySymbolsUseCase>("RetrieveAllSharesBySymbolsUseCase").to(RetrieveAllSharesBySymbolsUseCase);
-    diContainer.bind<RetrieveAllSharesUseCase>("RetrieveAllSharesUseCase").to(RetrieveAllSharesUseCase);
-    diContainer.bind<RetrieveShareByIdUseCase>("RetrieveShareByIdUseCase").to(RetrieveShareByIdUseCase);
-    diContainer.bind<RetrieveShareBySymbolUseCase>("RetrieveShareBySymbolUseCase").to(RetrieveShareBySymbolUseCase);
-    diContainer.bind<CreateShareRateUpdateUseCase>("CreateShareRateUpdateUseCase").to(CreateShareRateUpdateUseCase);
-    diContainer.bind<BuyShareTradeUseCase>("BuyShareTradeUseCase").to(BuyShareTradeUseCase);
-    diContainer.bind<RetrieveAllTradesByShareAndUserUseCase>("RetrieveAllTradesByShareAndUserUseCase").to(RetrieveAllTradesByShareAndUserUseCase);
-    diContainer.bind<RetrieveAllTradesByShareUseCase>("RetrieveAllTradesByShareUseCase").to(RetrieveAllTradesByShareUseCase);
-    diContainer.bind<SellShareTradeUseCase>("SellShareTradeUseCase").to(SellShareTradeUseCase);
+    diContainer
+      .bind<AddShareToPortfolioUseCase>("AddShareToPortfolioUseCase")
+      .to(AddShareToPortfolioUseCase);
+    diContainer
+      .bind<CreatePortfolioUseCase>("CreatePortfolioUseCase")
+      .to(CreatePortfolioUseCase);
+    diContainer
+      .bind<RemoveShareFromPortfolioUseCase>("RemoveShareFromPortfolioUseCase")
+      .to(RemoveShareFromPortfolioUseCase);
+    diContainer
+      .bind<RetrieveAllPortfoliosByUserUseCase>(
+        "RetrieveAllPortfoliosByUserUseCase"
+      )
+      .to(RetrieveAllPortfoliosByUserUseCase);
+    diContainer
+      .bind<RetrievePortfolioByIdUseCase>("RetrievePortfolioByIdUseCase")
+      .to(RetrievePortfolioByIdUseCase);
+    diContainer
+      .bind<CreateShareUseCase>("CreateShareUseCase")
+      .to(CreateShareUseCase);
+    diContainer
+      .bind<RetrieveAllSharesBySymbolsUseCase>(
+        "RetrieveAllSharesBySymbolsUseCase"
+      )
+      .to(RetrieveAllSharesBySymbolsUseCase);
+    diContainer
+      .bind<RetrieveAllSharesUseCase>("RetrieveAllSharesUseCase")
+      .to(RetrieveAllSharesUseCase);
+    diContainer
+      .bind<RetrieveShareByIdUseCase>("RetrieveShareByIdUseCase")
+      .to(RetrieveShareByIdUseCase);
+    diContainer
+      .bind<RetrieveShareBySymbolUseCase>("RetrieveShareBySymbolUseCase")
+      .to(RetrieveShareBySymbolUseCase);
+    diContainer
+      .bind<CreateShareRateUpdateUseCase>("CreateShareRateUpdateUseCase")
+      .to(CreateShareRateUpdateUseCase);
+    diContainer
+      .bind<BuyShareTradeUseCase>("BuyShareTradeUseCase")
+      .to(BuyShareTradeUseCase);
+    diContainer
+      .bind<RetrieveAllTradesByShareAndUserUseCase>(
+        "RetrieveAllTradesByShareAndUserUseCase"
+      )
+      .to(RetrieveAllTradesByShareAndUserUseCase);
+    diContainer
+      .bind<RetrieveAllTradesByShareUseCase>("RetrieveAllTradesByShareUseCase")
+      .to(RetrieveAllTradesByShareUseCase);
+    diContainer
+      .bind<SellShareTradeUseCase>("SellShareTradeUseCase")
+      .to(SellShareTradeUseCase);
     diContainer
       .bind<RetrieveUserByIdUseCase>("RetrieveUserByIdUseCase")
       .to(RetrieveUserByIdUseCase);

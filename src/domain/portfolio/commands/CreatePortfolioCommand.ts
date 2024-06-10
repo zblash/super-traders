@@ -1,9 +1,9 @@
-import { IsNumber, IsOptional } from "class-validator";
+import { IsNumber, IsString } from "class-validator";
 
 export class CreatePortfolioCommand {
   @IsNumber()
   userId: number;
 
-  @IsNumber()
+  @IsString()
   name: string;
 }

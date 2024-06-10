@@ -4,13 +4,15 @@ import { PortfolioPort } from "../out/PortfolioPort";
 import { UseCase } from "../../../common/helper/UseCase";
 import { ValidateBeforeExecution } from "../../../common/validations/UseCaseValidator";
 import { AddShareToPortfolioCommand } from "../../commands/AddShareToPortfolioCommand";
+import { RetrieveShareByIdUseCase } from "../../../share/ports/in/share/RetrieveShareByIdUseCase";
 
 @injectable()
 export class AddShareToPortfolioUseCase
   implements UseCase<AddShareToPortfolioCommand, Promise<Portfolio>>
 {
   public constructor(
-    @inject("PortfolioPort") private portfolioPort: PortfolioPort
+    @inject("PortfolioPort") private portfolioPort: PortfolioPort,
+    @inject("RetrieveShareByIdUseCase") private retrieveShareByIdUseCase: RetrieveShareByIdUseCase
   ) {}
 
   @ValidateBeforeExecution()
@@ -20,10 +22,6 @@ export class AddShareToPortfolioUseCase
       command.userId
     );
 
-    if (!portfolio) {
-      throw new Error("Portfolio not found");
-    }
-
     const hasShare = portfolio.shareItems.find(
       (item) => item.share.id === command.shareId
     );
@@ -32,6 +30,10 @@ export class AddShareToPortfolioUseCase
       hasShare.quantity += command.quantity;
       return await this.portfolioPort.updatePortfolioShareItem(hasShare);
     }
+
+    await this.retrieveShareByIdUseCase.execute({
+      id: command.shareId
+    });
 
     return await this.portfolioPort.addNewShareToPortfolio(command);
   }

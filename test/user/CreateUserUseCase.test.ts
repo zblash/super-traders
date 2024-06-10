@@ -1,8 +1,8 @@
 import { expect } from "chai";
-import { DiContainer } from "../src/infra/DiContainer";
-import { CreateUserUseCase } from "../src/domain/user/ports/in/CreateUserUseCase";
-import { CreateUserCommand } from "../src/domain/user/commands/CreateUserCommand";
-import { User } from "../src/domain/user/model/User";
+import { DiContainer } from "../../src/infra/DiContainer";
+import { CreateUserUseCase } from "../../src/domain/user/ports/in/CreateUserUseCase";
+import { CreateUserCommand } from "../../src/domain/user/commands/CreateUserCommand";
+import { User } from "../../src/domain/user/model/User";
 
 describe("CreateUserUseCase", () => {
   let createUserUseCase: CreateUserUseCase;

@@ -20,10 +20,6 @@ export class RemoveShareFromPortfolioUseCase
       command.userId
     );
 
-    if (!portfolio) {
-      throw new Error("Portfolio not found");
-    }
-
     const hasShare = portfolio.shareItems.find(
       (item) => item.share.id === command.shareId
     );

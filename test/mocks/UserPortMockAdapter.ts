@@ -35,7 +35,6 @@ export class UserPortMockAdapter implements UserPort {
   }
   async retrieveUserById(id: number): Promise<User> {
     const user = this.users.find((u) => u.id === id);
-    console.log("UserById", user, id);
     if (!user) {
       throw new Error("User not found");
     }

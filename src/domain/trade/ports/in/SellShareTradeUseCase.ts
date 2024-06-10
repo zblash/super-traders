@@ -27,10 +27,6 @@ export class SellShareTradeUseCase
       userId: command.userId,
     });
 
-    if (!portfolio) {
-      throw new Error("Portfolio not found");
-    }
-
     const shareItem = portfolio.shareItems.find(
       (item) => item.share.id === command.shareId
     );
@@ -43,21 +39,27 @@ export class SellShareTradeUseCase
       throw new Error("Not enough shares in portfolio");
     }
 
-    const allTrades = await this.tradePort.retrieveAllTradesByShareIdAndUserId(
+    const allTrades = await this.tradePort.retrieveAllTradesByShareId(
       command.shareId,
-      command.userId
     );
 
+    const trades = allTrades.map((trade) => {
+      return {
+        type: trade.type,
+        quantity: trade.quantity,
+      };
+    });
+
     if (allTrades.length > 0) {
-      const buyTrades = allTrades.filter(
+      const buyTrades = trades.filter(
         (trade) => trade.type === TradeType.BUY
       );
 
-      const sellTrades = allTrades.filter(
+      const sellTrades = trades.filter(
         (trade) => trade.type === TradeType.SELL
       );
 
-      if (sellTrades.length > buyTrades.length) {
+      if (sellTrades.reduce((p, c) => p + c.quantity, 0) + command.quantity > buyTrades.reduce((p, c) => p + c.quantity, 0)) {
         throw new Error("Cannot sell more shares than were bought");
       }
     }

@@ -18,10 +18,6 @@ export class UpdateUserUseCase
   async execute(command: UpdateUserCommand): Promise<User> {
     const userById = await this.userPort.retrieveUserById(command.id);
 
-    if (!userById) {
-      throw new Error("User not found");
-    }
-
     const userByEmail = await this.userPort.retrieveUserByEmail(command.email);
 
     if (userByEmail && userByEmail.id !== command.id) {

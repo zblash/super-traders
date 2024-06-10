@@ -1,7 +1,7 @@
 import { expect } from "chai";
-import { DiContainer } from "../src/infra/DiContainer";
-import { UpdateUserUseCase } from "../src/domain/user/ports/in/UpdateUserUseCase";
-import { UpdateUserCommand } from "../src/domain/user/commands/UpdateUserCommand";
+import { DiContainer } from "../../src/infra/DiContainer";
+import { UpdateUserUseCase } from "../../src/domain/user/ports/in/UpdateUserUseCase";
+import { UpdateUserCommand } from "../../src/domain/user/commands/UpdateUserCommand";
 
 describe("UpdateUserUseCase", () => {
   let updateUserUseCase: UpdateUserUseCase;

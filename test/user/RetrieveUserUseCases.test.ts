@@ -1,8 +1,8 @@
 import { expect } from "chai";
-import { DiContainer } from "../src/infra/DiContainer";
-import { RetrieveUserByIdUseCase } from "../src/domain/user/ports/in/RetrieveUserByIdUseCase";
-import { retrieveUserByIdCommand } from "../src/domain/user/commands/RetrieveUserByIdCommand";
-import { RetrieveAllUsersUseCase } from "../src/domain/user/ports/in/RetrieveAllUsersUseCase";
+import { DiContainer } from "../../src/infra/DiContainer";
+import { RetrieveUserByIdUseCase } from "../../src/domain/user/ports/in/RetrieveUserByIdUseCase";
+import { retrieveUserByIdCommand } from "../../src/domain/user/commands/RetrieveUserByIdCommand";
+import { RetrieveAllUsersUseCase } from "../../src/domain/user/ports/in/RetrieveAllUsersUseCase";
 
 describe("RetrieveUsers", () => {
   let retrieveUserByIdUseCase: RetrieveUserByIdUseCase;

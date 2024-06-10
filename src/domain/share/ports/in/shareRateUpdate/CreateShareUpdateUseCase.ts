@@ -39,6 +39,15 @@ export class CreateShareRateUpdateUseCase
       throw new Error("Share not found");
     }
 
+    const latestRateUpdate = await this.shareRateUpdatePort.retrieveLatestShareRateUpdateByShareIdAndUserId(
+      share.id,
+      command.userId
+    );
+
+    if (latestRateUpdate && latestRateUpdate?.date + 3600 > Date.now()) {
+      throw new Error("You can not add more than 1 rate update per hour");
+    }
+
     const rateUpdate = await this.shareRateUpdatePort.createShareRateUpdate({
       shareId: share.id,
       userId: command.userId,

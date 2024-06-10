@@ -13,6 +13,12 @@ export class RetrieveShareBySymbolUseCase
 
   @ValidateBeforeExecution()
   async execute(command: RetrieveShareBySymbolCommand): Promise<Share> {
-    return await this.sharePort.retrieveShareBySymbol(command.symbol);
+    const share = await this.sharePort.retrieveShareBySymbol(command.symbol);
+
+    if (!share) {
+      throw new Error("Share not found");
+    }
+
+    return share;
   }
 }
