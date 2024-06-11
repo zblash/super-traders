@@ -5,6 +5,7 @@ import { CreateShareCommand } from "../../../commands/share/CreateShareCommand";
 import { Share } from "../../../model/Share";
 import { ValidateBeforeExecution } from "../../../../common/validations/UseCaseValidator";
 import { UseCase } from "../../../../common/helper/UseCase";
+import { DomainError } from "../../../../common/error/DomainError";
 
 @injectable()
 export class CreateShareUseCase
@@ -23,7 +24,7 @@ export class CreateShareUseCase
     );
 
     if (shareBySymbol) {
-      throw new Error("Share already exists");
+      throw new DomainError("Share already exists");
     }
     const share = await this.sharePort.createShare(command);
     const rateUpdate =

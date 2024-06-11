@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from ".";
+import ShareRateUpdateModel from "./ShareRateUpdate";
 
 interface UserModelAttributes {
   id: number;
@@ -33,7 +34,10 @@ const UserModel = sequelize.define<UserInstance>(
   },
   {
     timestamps: false,
+    tableName: "users",
   }
 );
+
+ShareRateUpdateModel.belongsTo(UserModel, { foreignKey: "userId" });
 
 export default UserModel;

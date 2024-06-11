@@ -3,6 +3,7 @@ import { DiContainer } from "../../src/infra/DiContainer";
 import { CreateUserUseCase } from "../../src/domain/user/ports/in/CreateUserUseCase";
 import { CreateUserCommand } from "../../src/domain/user/commands/CreateUserCommand";
 import { User } from "../../src/domain/user/model/User";
+import { DomainError } from "../../src/domain/common/error/DomainError";
 
 describe("CreateUserUseCase", () => {
   let createUserUseCase: CreateUserUseCase;
@@ -30,7 +31,7 @@ describe("CreateUserUseCase", () => {
         email: "test3@test.com",
       } as CreateUserCommand);
     } catch (error) {
-      expect(error).to.instanceOf(Error);
+      expect(error).to.instanceOf(DomainError);
       expect((error as Error).message).to.equal("User already exists");
     }
   });

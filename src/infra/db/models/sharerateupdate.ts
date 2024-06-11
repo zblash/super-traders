@@ -1,7 +1,5 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from ".";
-import ShareModel from "./share";
-import UserModel from "./user";
 
 interface ShareRateUpdateModelAttributes {
   id: number;
@@ -33,7 +31,7 @@ const ShareRateUpdateModel = sequelize.define<ShareRateUpdateInstance>(
     shareId: {
       allowNull: false,
       references: {
-        model: "shares",
+        model: "Share",
         key: "id",
       },
       type: DataTypes.INTEGER,
@@ -41,7 +39,7 @@ const ShareRateUpdateModel = sequelize.define<ShareRateUpdateInstance>(
     userId: {
       allowNull: true,
       references: {
-        model: "users",
+        model: "User",
         key: "id",
       },
       type: DataTypes.INTEGER,
@@ -55,11 +53,12 @@ const ShareRateUpdateModel = sequelize.define<ShareRateUpdateInstance>(
       allowNull: false,
       type: DataTypes.FLOAT,
     },
+  },
+  {
+    timestamps: false,
+    tableName: "shareRateUpdates",
   }
 );
 
-ShareRateUpdateModel.belongsTo(ShareModel, { foreignKey: "shareId" });
-
-ShareRateUpdateModel.belongsTo(UserModel, { foreignKey: "userId" });
 
 export default ShareRateUpdateModel;

@@ -2,8 +2,9 @@ import { injectable } from "inversify";
 import { CreateUserCommand } from "../../../domain/user/commands/CreateUserCommand";
 import { User } from "../../../domain/user/model/User";
 import { UserPort } from "../../../domain/user/ports/out/UserPort";
-import UserModel from "../../db/models/user";
+import UserModel from "../../db/models/UserModel";
 import { UserMapper } from "../mappers/UserMapper";
+import { DomainError } from "../../../domain/common/error/DomainError";
 
 @injectable()
 export class UserPortAdapter implements UserPort {
@@ -16,7 +17,7 @@ export class UserPortAdapter implements UserPort {
     const user = await UserModel.findByPk(id);
 
     if (!user) {
-      throw new Error("User not found");
+      throw new DomainError("User not found");
     }
 
     return UserMapper.toDomainModel(user);
@@ -39,7 +40,7 @@ export class UserPortAdapter implements UserPort {
     const foundUser = await UserModel.findByPk(user.id);
 
     if (!foundUser) {
-      throw new Error("User not found");
+      throw new DomainError("User not found");
     }
 
     foundUser.name = user.name;

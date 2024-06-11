@@ -1,5 +1,5 @@
 import { Portfolio } from "../../../domain/portfolio/model/Portfolio";
-import { PortfolioInstance } from "../../db/models/portfolio";
+import { PortfolioInstance } from "../../db/models/PortfolioModel";
 
 export const PortfolioMapper = (function () {
   function toDomainModel(portfolio: PortfolioInstance): Portfolio {

@@ -5,6 +5,7 @@ import { UseCase } from "../../../../common/helper/UseCase";
 import { CreateShareRateUpdateCommand } from "../../../commands/shareRateUpdate/CreateShareRateUpdateCommand";
 import { ShareRateUpdate } from "../../../model/ShareRateUpdate";
 import { RetrieveAllPortfoliosByUserUseCase } from "../../../../portfolio/ports/in/RetrieveAllPortfoliosByUserUseCase";
+import { DomainError } from "../../../../common/error/DomainError";
 
 @injectable()
 export class CreateShareRateUpdateUseCase
@@ -26,7 +27,7 @@ export class CreateShareRateUpdateUseCase
     });
 
     if (!portfolios || portfolios?.length === 0) {
-      throw new Error("User has no portfolio");
+      throw new DomainError("User has no portfolio");
     }
 
     const share = portfolios
@@ -36,7 +37,7 @@ export class CreateShareRateUpdateUseCase
       .find((s) => s.id === command.shareId);
 
     if (!share) {
-      throw new Error("Share not found");
+      throw new DomainError("Share not found");
     }
 
     const latestRateUpdate = await this.shareRateUpdatePort.retrieveLatestShareRateUpdateByShareIdAndUserId(
@@ -45,7 +46,7 @@ export class CreateShareRateUpdateUseCase
     );
 
     if (latestRateUpdate && latestRateUpdate?.date + 3600 > Date.now()) {
-      throw new Error("You can not add more than 1 rate update per hour");
+      throw new DomainError("You can not add more than 1 rate update per hour");
     }
 
     const rateUpdate = await this.shareRateUpdatePort.createShareRateUpdate({

@@ -3,6 +3,7 @@ import { injectable } from "inversify";
 import { CreateUserCommand } from "../../src/domain/user/commands/CreateUserCommand";
 import { User } from "../../src/domain/user/model/User";
 import { UserPort } from "../../src/domain/user/ports/out/UserPort";
+import { DomainError } from "../../src/domain/common/error/DomainError";
 
 @injectable()
 export class UserPortMockAdapter implements UserPort {
@@ -36,7 +37,7 @@ export class UserPortMockAdapter implements UserPort {
   async retrieveUserById(id: number): Promise<User> {
     const user = this.users.find((u) => u.id === id);
     if (!user) {
-      throw new Error("User not found");
+      throw new DomainError("User not found");
     }
 
     return user;
@@ -55,7 +56,7 @@ export class UserPortMockAdapter implements UserPort {
     const listUser = this.users.find((u) => u.id === user.id);
 
     if (!listUser) {
-      throw new Error("User not found");
+      throw new DomainError("User not found");
     }
 
     listUser.email = user.email;

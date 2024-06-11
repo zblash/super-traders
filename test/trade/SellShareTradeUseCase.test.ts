@@ -4,6 +4,7 @@ import { Trade } from "../../src/domain/trade/model/Trade";
 import { TradeType } from "../../src/domain/trade/model/TradeType";
 import { SellShareTradeUseCase } from "../../src/domain/trade/ports/in/SellShareTradeUseCase";
 import { SellShareTradeCommand } from "../../src/domain/trade/commands/SellShareTradeCommand";
+import { DomainError } from "../../src/domain/common/error/DomainError";
 
 describe("SellTradeUseCase", () => {
   let sellShareTradeUseCase: SellShareTradeUseCase;
@@ -51,7 +52,7 @@ describe("SellTradeUseCase", () => {
         quantity: 1,
       } as SellShareTradeCommand);
     } catch (error) {
-      expect(error).to.instanceOf(Error);
+      expect(error).to.instanceOf(DomainError);
       expect((error as Error).message).to.equal("Share not found in portfolio");
     }
   });
@@ -65,7 +66,7 @@ describe("SellTradeUseCase", () => {
         quantity: 10000,
       } as SellShareTradeCommand);
     } catch (error) {
-      expect(error).to.instanceOf(Error);
+      expect(error).to.instanceOf(DomainError);
       expect((error as Error).message).to.equal(
         "Not enough shares in portfolio"
       );
@@ -81,7 +82,7 @@ describe("SellTradeUseCase", () => {
         quantity: 1,
       } as SellShareTradeCommand);
     } catch (error) {
-      expect(error).to.instanceOf(Error);
+      expect(error).to.instanceOf(DomainError);
       expect((error as Error).message).to.equal(
         "Cannot sell more shares than were bought"
       );

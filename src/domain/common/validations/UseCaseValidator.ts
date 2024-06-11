@@ -1,5 +1,6 @@
 import { plainToInstance } from "class-transformer";
 import { ValidationError, validate } from "class-validator";
+import { DomainError } from "../error/DomainError";
 
 function transformValidationErrorsToJSON(errors: ValidationError[]) {
   return errors.reduce((p, c: ValidationError) => {
@@ -33,7 +34,7 @@ export function ValidateBeforeExecution() {
 
         const errors = await validate(plainToInstance(models[0], requestType));
         if (errors.length > 0) {
-          throw new Error(
+          throw new DomainError(
             JSON.stringify(transformValidationErrorsToJSON(errors))
           );
         }

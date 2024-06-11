@@ -4,9 +4,10 @@ import { CreatePortfolioCommand } from "../../../domain/portfolio/commands/Creat
 import { Portfolio } from "../../../domain/portfolio/model/Portfolio";
 import { PortfolioShareItem } from "../../../domain/portfolio/model/PortfolioShareItem";
 import { PortfolioPort } from "../../../domain/portfolio/ports/out/PortfolioPort";
-import PortfolioModel from "../../db/models/portfolio";
-import PortfolioShareItemModel from "../../db/models/portfolioshareitem";
+import PortfolioModel from "../../db/models/PortfolioModel";
+import PortfolioShareItemModel from "../../db/models/PortfolioShareItemModel";
 import { PortfolioMapper } from "../mappers/PortfolioMapper";
+import { DomainError } from "../../../domain/common/error/DomainError";
 
 @injectable()
 export class PortfolioPortAdapter implements PortfolioPort {
@@ -21,21 +22,29 @@ export class PortfolioPortAdapter implements PortfolioPort {
   async addNewShareToPortfolio(
     command: AddShareToPortfolioCommand
   ): Promise<Portfolio> {
+    const portfolio = await PortfolioModel.findByPk(command.portfolioId);
+
+    if (!portfolio) {
+      throw new DomainError("Portfolio not found");
+    }
+
     const portfolioShareItemModel = await PortfolioShareItemModel.create({
       portfolioId: command.portfolioId,
       shareId: command.shareId,
       quantity: command.quantity,
     });
 
-    const portfolio = await PortfolioModel.findByPk(
-      portfolioShareItemModel.portfolioId
-    );
-
     return PortfolioMapper.toDomainModel(portfolio);
   }
   async updatePortfolioShareItem(
     command: PortfolioShareItem
   ): Promise<Portfolio> {
+    const portfolio = await PortfolioModel.findByPk(command.portfolioId);
+
+    if (!portfolio) {
+      throw new DomainError("Portfolio not found");
+    }
+
     const portfolioShareItemModel = await PortfolioShareItemModel.findOne({
       where: {
         portfolioId: command.portfolioId,
@@ -44,16 +53,12 @@ export class PortfolioPortAdapter implements PortfolioPort {
     });
 
     if (!portfolioShareItemModel) {
-      throw new Error("Portfolio share item not found");
+      throw new DomainError("Share not found");
     }
 
     portfolioShareItemModel.quantity = command.quantity;
 
     portfolioShareItemModel.save();
-
-    const portfolio = await PortfolioModel.findByPk(
-      portfolioShareItemModel.portfolioId
-    );
 
     return PortfolioMapper.toDomainModel(portfolio);
   }
@@ -61,14 +66,18 @@ export class PortfolioPortAdapter implements PortfolioPort {
     shareId: number,
     portfolioId: number
   ): Promise<Portfolio> {
+    const portfolio = await PortfolioModel.findByPk(portfolioId);
+
+    if (!portfolio) {
+      throw new DomainError("Portfolio not found");
+    }
+
     await PortfolioShareItemModel.destroy({
       where: {
         portfolioId,
         shareId,
       },
     });
-
-    const portfolio = await PortfolioModel.findByPk(portfolioId);
 
     return PortfolioMapper.toDomainModel(portfolio);
   }
@@ -84,7 +93,7 @@ export class PortfolioPortAdapter implements PortfolioPort {
     });
 
     if (!portfolio) {
-      throw new Error("Portfolio not found");
+      throw new DomainError("Portfolio not found");
     }
 
     return PortfolioMapper.toDomainModel(portfolio);

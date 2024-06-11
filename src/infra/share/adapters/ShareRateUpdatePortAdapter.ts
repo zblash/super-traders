@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 import { CreateShareRateUpdateCommand } from "../../../domain/share/commands/shareRateUpdate/CreateShareRateUpdateCommand";
 import { ShareRateUpdate } from "../../../domain/share/model/ShareRateUpdate";
 import { ShareRateUpdatePort } from "../../../domain/share/ports/out/ShareRateUpdatePort";
-import ShareRateUpdateModel from "../../db/models/sharerateupdate";
+import ShareRateUpdateModel from "../../db/models/ShareRateUpdate";
 import { ShareMapper } from "../mappers/ShareMapper";
 
 @injectable()

@@ -3,6 +3,7 @@ import { DiContainer } from "../../src/infra/DiContainer";
 import { Portfolio } from "../../src/domain/portfolio/model/Portfolio";
 import { RemoveShareFromPortfolioUseCase } from "../../src/domain/portfolio/ports/in/RemoveShareFromPortfolioUseCase";
 import { RemoveShareFromPortfolioCommand } from "../../src/domain/portfolio/commands/RemoveShareFromPortfolioCommand";
+import { DomainError } from "../../src/domain/common/error/DomainError";
 
 describe("RemoveShareFromPortfolioUseCase", () => {
   let removeShareFromPortfolioUseCase: RemoveShareFromPortfolioUseCase;
@@ -48,7 +49,7 @@ describe("RemoveShareFromPortfolioUseCase", () => {
         portfolioId: 44,
       } as RemoveShareFromPortfolioCommand);
     } catch (error) {
-      expect(error).to.instanceOf(Error);
+      expect(error).to.instanceOf(DomainError);
       expect((error as Error).message).to.equal("Portfolio not found");
     }
   });
@@ -62,7 +63,7 @@ describe("RemoveShareFromPortfolioUseCase", () => {
         portfolioId: 1,
       } as RemoveShareFromPortfolioCommand);
     } catch (error) {
-      expect(error).to.instanceOf(Error);
+      expect(error).to.instanceOf(DomainError);
       expect((error as Error).message).to.equal("Share not found");
     }
   });

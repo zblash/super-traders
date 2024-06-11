@@ -1,12 +1,10 @@
 import { expect } from "chai";
 import { DiContainer } from "../../src/infra/DiContainer";
-import { CreateShareUseCase } from "../../src/domain/share/ports/in/share/CreateShareUseCase";
-import { CreateShareCommand } from "../../src/domain/share/commands/share/CreateShareCommand";
-import { Share } from "../../src/domain/share/model/Share";
 import { RetrieveAllSharesBySymbolsUseCase } from "../../src/domain/share/ports/in/share/RetrieveAllSharesBySymbolsUseCase";
 import { RetrieveAllSharesUseCase } from "../../src/domain/share/ports/in/share/RetrieveAllSharesUseCase";
 import { RetrieveShareByIdUseCase } from "../../src/domain/share/ports/in/share/RetrieveShareByIdUseCase";
 import { RetrieveShareBySymbolUseCase } from "../../src/domain/share/ports/in/share/RetrieveShareBySymbolUseCase";
+import { DomainError } from "../../src/domain/common/error/DomainError";
 
 describe("CreateShareUseCase", () => {
   let retrieveAllSharesBySymbolsUseCase: RetrieveAllSharesBySymbolsUseCase;
@@ -65,7 +63,7 @@ describe("CreateShareUseCase", () => {
         id: 44,
       });
     } catch (error) {
-      expect(error).to.instanceOf(Error);
+      expect(error).to.instanceOf(DomainError);
       expect((error as Error).message).to.equal("Share not found");
     }
   });
@@ -85,7 +83,7 @@ describe("CreateShareUseCase", () => {
         symbol: "KOC",
       });
     } catch (error) {
-      expect(error).to.instanceOf(Error);
+      expect(error).to.instanceOf(DomainError);
       expect((error as Error).message).to.equal("Share not found");
     }
   });

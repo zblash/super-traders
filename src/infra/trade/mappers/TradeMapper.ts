@@ -1,5 +1,5 @@
 import { Trade } from "../../../domain/trade/model/Trade";
-import { TradeInstance } from "../../db/models/trade";
+import { TradeInstance } from "../../db/models/TradeModel";
 
 export const TradeMapper = (function () {
   function toDomainModel(dbModel: TradeInstance): Trade {

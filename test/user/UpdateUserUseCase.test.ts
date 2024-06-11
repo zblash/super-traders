@@ -2,6 +2,7 @@ import { expect } from "chai";
 import { DiContainer } from "../../src/infra/DiContainer";
 import { UpdateUserUseCase } from "../../src/domain/user/ports/in/UpdateUserUseCase";
 import { UpdateUserCommand } from "../../src/domain/user/commands/UpdateUserCommand";
+import { DomainError } from "../../src/domain/common/error/DomainError";
 
 describe("UpdateUserUseCase", () => {
   let updateUserUseCase: UpdateUserUseCase;
@@ -30,7 +31,7 @@ describe("UpdateUserUseCase", () => {
         email: "test3@test.com",
       } as UpdateUserCommand);
     } catch (error) {
-      expect(error).to.instanceOf(Error);
+      expect(error).to.instanceOf(DomainError);
       expect((error as Error).message).to.equal("User already exists");
     }
   });
@@ -43,7 +44,7 @@ describe("UpdateUserUseCase", () => {
         email: "test3@test.com",
       } as UpdateUserCommand);
     } catch (error) {
-      expect(error).to.instanceOf(Error);
+      expect(error).to.instanceOf(DomainError);
       expect((error as Error).message).to.equal("User not found");
     }
   });

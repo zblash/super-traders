@@ -1,6 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from ".";
-import PortfolioShareItemModel from "./portfolioshareitem";
+import PortfolioShareItemModel from "./PortfolioShareItemModel";
 
 interface PortfolioAttributes {
   id: number;
@@ -29,16 +29,24 @@ const PortfolioModel = sequelize.define<PortfolioInstance>("Portfolio", {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: "users",
+      model: "User",
       key: "id",
     },
   },
+}, {
+  timestamps: false,
+  tableName: 'portfolios',
 });
 
 PortfolioModel.hasMany(PortfolioShareItemModel, {
   foreignKey: "portfolioId",
   sourceKey: "id",
   as: "shareItems",
+});
+
+
+PortfolioShareItemModel.belongsTo(PortfolioModel, {
+  foreignKey: "portfolioId",
 });
 
 export default PortfolioModel;

@@ -7,6 +7,7 @@ import { TradeType } from "../../model/TradeType";
 import { TradePort } from "../out/TradePort";
 import { SellShareTradeCommand } from "../../commands/SellShareTradeCommand";
 import { RemoveShareFromPortfolioUseCase } from "../../../portfolio/ports/in/RemoveShareFromPortfolioUseCase";
+import { DomainError } from "../../../common/error/DomainError";
 
 @injectable()
 export class SellShareTradeUseCase
@@ -32,11 +33,11 @@ export class SellShareTradeUseCase
     );
 
     if (!shareItem) {
-      throw new Error("Share not found in portfolio");
+      throw new DomainError("Share not found in portfolio");
     }
 
     if (shareItem.quantity < command.quantity) {
-      throw new Error("Not enough shares in portfolio");
+      throw new DomainError("Not enough shares in portfolio");
     }
 
     const allTrades = await this.tradePort.retrieveAllTradesByShareId(
@@ -60,7 +61,7 @@ export class SellShareTradeUseCase
       );
 
       if (sellTrades.reduce((p, c) => p + c.quantity, 0) + command.quantity > buyTrades.reduce((p, c) => p + c.quantity, 0)) {
-        throw new Error("Cannot sell more shares than were bought");
+        throw new DomainError("Cannot sell more shares than were bought");
       }
     }
 

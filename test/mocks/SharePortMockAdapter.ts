@@ -2,6 +2,7 @@ import { injectable } from "inversify";
 import { CreateShareCommand } from "../../src/domain/share/commands/share/CreateShareCommand";
 import { Share } from "../../src/domain/share/model/Share";
 import { SharePort } from "../../src/domain/share/ports/out/SharePort";
+import { DomainError } from "../../src/domain/common/error/DomainError";
 
 @injectable()
 export class SharePortMockAdapter implements SharePort {
@@ -42,7 +43,7 @@ export class SharePortMockAdapter implements SharePort {
     const share = this.shares.find((s) => s.id === id);
 
     if (!share) {
-      throw new Error("Share not found");
+      throw new DomainError("Share not found");
     }
 
     return share;

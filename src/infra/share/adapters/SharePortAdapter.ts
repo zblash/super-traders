@@ -2,8 +2,9 @@ import { injectable } from "inversify";
 import { CreateShareCommand } from "../../../domain/share/commands/share/CreateShareCommand";
 import { Share } from "../../../domain/share/model/Share";
 import { SharePort } from "../../../domain/share/ports/out/SharePort";
-import ShareModel from "../../db/models/share";
+import ShareModel from "../../db/models/ShareModel";
 import { ShareMapper } from "../mappers/ShareMapper";
+import { DomainError } from "../../../domain/common/error/DomainError";
 
 @injectable()
 export class SharePortAdapter implements SharePort {
@@ -23,7 +24,7 @@ export class SharePortAdapter implements SharePort {
     const share = await ShareModel.findByPk(id);
 
     if (!share) {
-      throw new Error("Share not found");
+      throw new DomainError("Share not found");
     }
 
     return ShareMapper.toDomainModel(share);

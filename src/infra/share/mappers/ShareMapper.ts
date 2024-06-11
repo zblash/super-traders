@@ -1,7 +1,7 @@
 import { Share } from "../../../domain/share/model/Share";
 import { ShareRateUpdate } from "../../../domain/share/model/ShareRateUpdate";
-import { ShareInstance } from "../../db/models/share";
-import { ShareRateUpdateInstance } from "../../db/models/sharerateupdate";
+import { ShareInstance } from "../../db/models/ShareModel";
+import { ShareRateUpdateInstance } from "../../db/models/ShareRateUpdate";
 
 export const ShareMapper = (function () {
   function toDomainModel(share: ShareInstance): Share {

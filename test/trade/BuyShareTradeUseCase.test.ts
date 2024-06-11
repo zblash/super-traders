@@ -4,6 +4,7 @@ import { BuyShareTradeUseCase } from "../../src/domain/trade/ports/in/BuyShareTr
 import { BuyShareTradeCommand } from "../../src/domain/trade/commands/BuyShareTradeCommand";
 import { Trade } from "../../src/domain/trade/model/Trade";
 import { TradeType } from "../../src/domain/trade/model/TradeType";
+import { DomainError } from "../../src/domain/common/error/DomainError";
 
 describe("BuyTradeUseCase", () => {
   let buyShareTradeUseCase: BuyShareTradeUseCase;
@@ -38,7 +39,7 @@ describe("BuyTradeUseCase", () => {
             quantity: 1
         } as BuyShareTradeCommand);
     } catch (error) {
-      expect(error).to.instanceOf(Error);
+      expect(error).to.instanceOf(DomainError);
       expect((error as Error).message).to.equal("Portfolio not found");
     }
   });
@@ -52,7 +53,7 @@ describe("BuyTradeUseCase", () => {
             quantity: 1
         } as BuyShareTradeCommand);
     } catch (error) {
-      expect(error).to.instanceOf(Error);
+      expect(error).to.instanceOf(DomainError);
       expect((error as Error).message).to.equal("Share not found");
     }
   });

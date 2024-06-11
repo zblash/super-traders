@@ -4,6 +4,7 @@ import { ValidateBeforeExecution } from "../../../common/validations/UseCaseVali
 import { User } from "../../model/User";
 import { UserPort } from "../out/UserPort";
 import { UpdateUserCommand } from "../../commands/UpdateUserCommand";
+import { DomainError } from "../../../common/error/DomainError";
 
 @injectable()
 export class UpdateUserUseCase
@@ -21,7 +22,7 @@ export class UpdateUserUseCase
     const userByEmail = await this.userPort.retrieveUserByEmail(command.email);
 
     if (userByEmail && userByEmail.id !== command.id) {
-      throw new Error("User already exists");
+      throw new DomainError("User already exists");
     }
 
     userById.email = command.email;

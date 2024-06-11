@@ -4,6 +4,7 @@ import { ValidateBeforeExecution } from "../../../common/validations/UseCaseVali
 import { User } from "../../model/User";
 import { CreateUserCommand } from "../../commands/CreateUserCommand";
 import { UserPort } from "../out/UserPort";
+import { DomainError } from "../../../common/error/DomainError";
 
 @injectable()
 export class CreateUserUseCase
@@ -19,7 +20,7 @@ export class CreateUserUseCase
     const userByEmail = await this.userPort.retrieveUserByEmail(command.email);
 
     if (userByEmail) {
-      throw new Error("User already exists");
+      throw new DomainError("User already exists");
     }
     return await this.userPort.createUser(command);
   }

@@ -4,6 +4,7 @@ import { Share } from "../../../model/Share";
 import { ValidateBeforeExecution } from "../../../../common/validations/UseCaseValidator";
 import { UseCase } from "../../../../common/helper/UseCase";
 import { RetrieveShareBySymbolCommand } from "../../../commands/share/RetrieveShareBySymbolCommand";
+import { DomainError } from "../../../../common/error/DomainError";
 
 @injectable()
 export class RetrieveShareBySymbolUseCase
@@ -16,7 +17,7 @@ export class RetrieveShareBySymbolUseCase
     const share = await this.sharePort.retrieveShareBySymbol(command.symbol);
 
     if (!share) {
-      throw new Error("Share not found");
+      throw new DomainError("Share not found");
     }
 
     return share;

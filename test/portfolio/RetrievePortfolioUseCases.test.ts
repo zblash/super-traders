@@ -3,6 +3,7 @@ import { DiContainer } from "../../src/infra/DiContainer";
 import { Portfolio } from "../../src/domain/portfolio/model/Portfolio";
 import { RetrievePortfolioByIdUseCase } from "../../src/domain/portfolio/ports/in/RetrievePortfolioByIdUseCase";
 import { RetrievePortfolioByIdCommand } from "../../src/domain/portfolio/commands/RetrievePortfolioByIdCommand";
+import { DomainError } from "../../src/domain/common/error/DomainError";
 
 describe("RetrievePortfolioUseCases", () => {
   let retrievePortfolioByIdUseCase: RetrievePortfolioByIdUseCase;
@@ -33,7 +34,7 @@ describe("RetrievePortfolioUseCases", () => {
         portfolioId: 1,
       } as RetrievePortfolioByIdCommand);
     } catch (error) {
-      expect(error).to.instanceOf(Error);
+      expect(error).to.instanceOf(DomainError);
       expect((error as Error).message).to.equal("Portfolio not found");
     }
   });

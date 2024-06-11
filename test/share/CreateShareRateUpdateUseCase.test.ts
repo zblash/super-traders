@@ -3,6 +3,7 @@ import { DiContainer } from "../../src/infra/DiContainer";
 import { CreateShareRateUpdateUseCase } from "../../src/domain/share/ports/in/shareRateUpdate/CreateShareUpdateUseCase";
 import { CreateShareRateUpdateCommand } from "../../src/domain/share/commands/shareRateUpdate/CreateShareRateUpdateCommand";
 import { ShareRateUpdate } from "../../src/domain/share/model/ShareRateUpdate";
+import { DomainError } from "../../src/domain/common/error/DomainError";
 
 describe("CreateShareRateUpdateUseCase", () => {
   let createShareRateUpdateUseCase: CreateShareRateUpdateUseCase;
@@ -37,7 +38,7 @@ describe("CreateShareRateUpdateUseCase", () => {
         shareId: 1,
       } as CreateShareRateUpdateCommand);
     } catch (error) {
-      expect(error).to.instanceOf(Error);
+      expect(error).to.instanceOf(DomainError);
       expect((error as Error).message).to.equal("User has no portfolio");
     }
   });
@@ -50,7 +51,7 @@ describe("CreateShareRateUpdateUseCase", () => {
         shareId: 1,
       } as CreateShareRateUpdateCommand);
     } catch (error) {
-      expect(error).to.instanceOf(Error);
+      expect(error).to.instanceOf(DomainError);
       expect((error as Error).message).to.equal("Share not found");
     }
   });
@@ -63,7 +64,7 @@ describe("CreateShareRateUpdateUseCase", () => {
         shareId: 2,
       } as CreateShareRateUpdateCommand);
     } catch (error) {
-      expect(error).to.instanceOf(Error);
+      expect(error).to.instanceOf(DomainError);
       expect((error as Error).message).to.equal(
         "You can not add more than 1 rate update per hour"
       );

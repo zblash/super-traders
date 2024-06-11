@@ -4,6 +4,7 @@ import { PortfolioPort } from "../out/PortfolioPort";
 import { UseCase } from "../../../common/helper/UseCase";
 import { ValidateBeforeExecution } from "../../../common/validations/UseCaseValidator";
 import { RemoveShareFromPortfolioCommand } from "../../commands/RemoveShareFromPortfolioCommand";
+import { DomainError } from "../../../common/error/DomainError";
 
 @injectable()
 export class RemoveShareFromPortfolioUseCase
@@ -25,7 +26,7 @@ export class RemoveShareFromPortfolioUseCase
     );
 
     if (!hasShare) {
-      throw new Error("Share not found");
+      throw new DomainError("Share not found");
     }
 
     if (hasShare.quantity > command.quantity) {
@@ -33,6 +34,9 @@ export class RemoveShareFromPortfolioUseCase
       return await this.portfolioPort.updatePortfolioShareItem(hasShare);
     }
 
-    return await this.portfolioPort.removeShareFromPortfolio(command.shareId, command.portfolioId);
+    return await this.portfolioPort.removeShareFromPortfolio(
+      command.shareId,
+      command.portfolioId
+    );
   }
 }

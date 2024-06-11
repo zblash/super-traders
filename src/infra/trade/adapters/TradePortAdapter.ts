@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import { Trade } from "../../../domain/trade/model/Trade";
 import { TradePort } from "../../../domain/trade/ports/out/TradePort";
-import TradeModel from "../../db/models/trade";
+import TradeModel from "../../db/models/TradeModel";
 import { TradeMapper } from "../mappers/TradeMapper";
 
 @injectable()

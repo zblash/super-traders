@@ -1,7 +1,7 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from ".";
 import { TradeType } from "../../../domain/trade/model/TradeType";
-import UserModel from "./user";
+import UserModel from "./UserModel";
 
 interface TradeModelAttributes {
   id: number;
@@ -35,7 +35,7 @@ const TradeModel = sequelize.define<TradeInstance>("Trade", {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: "users",
+      model: "User",
       key: "id",
     },
   },
@@ -43,7 +43,7 @@ const TradeModel = sequelize.define<TradeInstance>("Trade", {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: "portfolios",
+      model: "Portfolio",
       key: "id",
     },
   },
@@ -51,7 +51,7 @@ const TradeModel = sequelize.define<TradeInstance>("Trade", {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: "shares",
+      model: "Share",
       key: "id",
     },
   },
@@ -67,6 +67,10 @@ const TradeModel = sequelize.define<TradeInstance>("Trade", {
     type: DataTypes.ENUM(...Object.values(TradeType)),
     allowNull: false,
   },
+},
+{
+  timestamps: false,
+  tableName: "trades",
 });
 
 TradeModel.belongsTo(UserModel, {

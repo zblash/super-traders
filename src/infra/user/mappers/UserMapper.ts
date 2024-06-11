@@ -1,5 +1,5 @@
 import { User } from "../../../domain/user/model/User";
-import { UserInstance } from "../../db/models/user";
+import { UserInstance } from "../../db/models/UserModel";
 
 export const UserMapper = (function () {
   function toDomainModel(dbModel: UserInstance): User {
