@@ -29,6 +29,11 @@ import { PortfolioPort } from "../domain/portfolio/ports/out/PortfolioPort";
 import { PortfolioPortMockAdapter } from "../../test/mocks/PortfolioPortMockAdapter";
 import { TradePort } from "../domain/trade/ports/out/TradePort";
 import { TradePortMockAdapter } from "../../test/mocks/TradePortMockAdapter";
+import { UserPortAdapter } from "./user/adapters/UserPortAdapter";
+import { SharePortAdapter } from "./share/adapters/SharePortAdapter";
+import { ShareRateUpdatePortAdapter } from "./share/adapters/ShareRateUpdatePortAdapter";
+import { PortfolioPortAdapter } from "./portfolio/adapters/PortfolioPortAdapter";
+import { TradePortAdapter } from "./trade/adapters/TradePortAdapter";
 
 export const DiContainer = (function () {
   let diContainer: Container;
@@ -45,7 +50,15 @@ export const DiContainer = (function () {
     diContainer.bind<TradePort>("TradePort").to(TradePortMockAdapter);
   }
 
-  function configureDependencies() {}
+  function configureDependencies() {
+    diContainer.bind<UserPort>("UserPort").to(UserPortAdapter);
+    diContainer.bind<SharePort>("SharePort").to(SharePortAdapter);
+    diContainer
+      .bind<ShareRateUpdatePort>("ShareRateUpdatePort")
+      .to(ShareRateUpdatePortAdapter);
+    diContainer.bind<PortfolioPort>("PortfolioPort").to(PortfolioPortAdapter);
+    diContainer.bind<TradePort>("TradePort").to(TradePortAdapter);
+  }
 
   function configureDomainDependencies() {
     diContainer

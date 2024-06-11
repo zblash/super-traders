@@ -1,25 +1,17 @@
 {
-    "cache": false,
-    "check-coverage": false,
-    "extension": [
-      ".ts"
-    ],
-    "include": [
-      "**/*.js",
-      "**/*.ts"
-    ],
-    "exclude": [
-      "coverage/**",
-      "node_modules/**",
-      "**/*.d.ts",
-      "test/**"
-    ],
-    "sourceMap": true,
-    "reporter": [
-      "html",
-      "text",
-      "text-summary"
-    ],
-    "all": true,
-    "instrument": true
-  }
+  "cache": false,
+  "check-coverage": false,
+  "extension": [".ts"],
+  "include": ["**/*.js", "**/*.ts"],
+  "exclude": [
+    "coverage/**",
+    "src/infra/db/**",
+    "node_modules/**",
+    "**/*.d.ts",
+    "test/**"
+  ],
+  "sourceMap": true,
+  "reporter": ["html", "text", "text-summary"],
+  "all": true,
+  "instrument": true
+}
