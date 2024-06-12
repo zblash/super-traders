@@ -11,6 +11,10 @@ export class UserPortAdapter implements UserPort {
   async retrieveUserByEmail(email: string): Promise<User> {
     const user = await UserModel.findOne({ where: { email } });
 
+    if (!user) {
+      return null;
+    }
+
     return UserMapper.toDomainModel(user);
   }
   async retrieveUserById(id: number): Promise<User> {

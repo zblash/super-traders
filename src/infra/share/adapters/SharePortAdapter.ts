@@ -5,6 +5,7 @@ import { SharePort } from "../../../domain/share/ports/out/SharePort";
 import ShareModel from "../../db/models/ShareModel";
 import { ShareMapper } from "../mappers/ShareMapper";
 import { DomainError } from "../../../domain/common/error/DomainError";
+import ShareRateUpdateModel from "../../db/models/ShareRateUpdate";
 
 @injectable()
 export class SharePortAdapter implements SharePort {
@@ -16,12 +17,31 @@ export class SharePortAdapter implements SharePort {
     return ShareMapper.toDomainModel(share);
   }
   async retrieveShareBySymbol(symbol: string): Promise<Share> {
-    const share = await ShareModel.findOne({ where: { symbol } });
+    const share = await ShareModel.findOne({
+      include: [
+        {
+          model: ShareRateUpdateModel,
+          as: "shareRateUpdates",
+        },
+      ],
+      where: { symbol },
+    });
+
+    if (!share) {
+      return null;
+    }
 
     return ShareMapper.toDomainModel(share);
   }
   async retrieveShareById(id: number): Promise<Share> {
-    const share = await ShareModel.findByPk(id);
+    const share = await ShareModel.findByPk(id, {
+      include: [
+        {
+          model: ShareRateUpdateModel,
+          as: "shareRateUpdates",
+        },
+      ],
+    });
 
     if (!share) {
       throw new DomainError("Share not found");
@@ -30,12 +50,27 @@ export class SharePortAdapter implements SharePort {
     return ShareMapper.toDomainModel(share);
   }
   async retrieveAllShares(): Promise<Share[]> {
-    const shares = await ShareModel.findAll();
+    const shares = await ShareModel.findAll({
+      include: [
+        {
+          model: ShareRateUpdateModel,
+          as: "shareRateUpdates",
+        },
+      ],
+    });
 
     return ShareMapper.toDomainModelList(shares);
   }
   async retrieveAllSharesBySymbolList(symbolList: string[]): Promise<Share[]> {
-    const shares = await ShareModel.findAll({ where: { symbol: symbolList } });
+    const shares = await ShareModel.findAll({
+      include: [
+        {
+          model: ShareRateUpdateModel,
+          as: "shareRateUpdates",
+        },
+      ],
+      where: { symbol: symbolList },
+    });
 
     return ShareMapper.toDomainModelList(shares);
   }

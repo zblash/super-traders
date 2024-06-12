@@ -8,6 +8,8 @@ import PortfolioModel from "../../db/models/PortfolioModel";
 import PortfolioShareItemModel from "../../db/models/PortfolioShareItemModel";
 import { PortfolioMapper } from "../mappers/PortfolioMapper";
 import { DomainError } from "../../../domain/common/error/DomainError";
+import ShareModel from "../../db/models/ShareModel";
+import ShareRateUpdateModel from "../../db/models/ShareRateUpdate";
 
 @injectable()
 export class PortfolioPortAdapter implements PortfolioPort {
@@ -22,16 +24,24 @@ export class PortfolioPortAdapter implements PortfolioPort {
   async addNewShareToPortfolio(
     command: AddShareToPortfolioCommand
   ): Promise<Portfolio> {
-    const portfolio = await PortfolioModel.findByPk(command.portfolioId);
-
-    if (!portfolio) {
-      throw new DomainError("Portfolio not found");
-    }
-
-    const portfolioShareItemModel = await PortfolioShareItemModel.create({
+    await PortfolioShareItemModel.create({
       portfolioId: command.portfolioId,
       shareId: command.shareId,
       quantity: command.quantity,
+    });
+
+    const portfolio = await PortfolioModel.findByPk(command.portfolioId, {
+      include: [
+        {
+          model: PortfolioShareItemModel,
+          as: "shareItems",
+          include: [
+            {
+              model: ShareModel,
+            },
+          ],
+        },
+      ],
     });
 
     return PortfolioMapper.toDomainModel(portfolio);
@@ -39,12 +49,6 @@ export class PortfolioPortAdapter implements PortfolioPort {
   async updatePortfolioShareItem(
     command: PortfolioShareItem
   ): Promise<Portfolio> {
-    const portfolio = await PortfolioModel.findByPk(command.portfolioId);
-
-    if (!portfolio) {
-      throw new DomainError("Portfolio not found");
-    }
-
     const portfolioShareItemModel = await PortfolioShareItemModel.findOne({
       where: {
         portfolioId: command.portfolioId,
@@ -60,23 +64,57 @@ export class PortfolioPortAdapter implements PortfolioPort {
 
     portfolioShareItemModel.save();
 
+    const portfolio = await PortfolioModel.findByPk(command.portfolioId, {
+      include: [
+        {
+          model: PortfolioShareItemModel,
+          as: "shareItems",
+          include: [
+            {
+              model: ShareModel,
+              include: [
+                {
+                  model: ShareRateUpdateModel,
+                  as: "shareRateUpdates",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+
     return PortfolioMapper.toDomainModel(portfolio);
   }
   async removeShareFromPortfolio(
     shareId: number,
     portfolioId: number
   ): Promise<Portfolio> {
-    const portfolio = await PortfolioModel.findByPk(portfolioId);
-
-    if (!portfolio) {
-      throw new DomainError("Portfolio not found");
-    }
-
     await PortfolioShareItemModel.destroy({
       where: {
         portfolioId,
         shareId,
       },
+    });
+
+    const portfolio = await PortfolioModel.findByPk(portfolioId, {
+      include: [
+        {
+          model: PortfolioShareItemModel,
+          as: "shareItems",
+          include: [
+            {
+              model: ShareModel,
+              include: [
+                {
+                  model: ShareRateUpdateModel,
+                  as: "shareRateUpdates",
+                },
+              ],
+            },
+          ],
+        },
+      ],
     });
 
     return PortfolioMapper.toDomainModel(portfolio);
@@ -86,6 +124,23 @@ export class PortfolioPortAdapter implements PortfolioPort {
     userId: number
   ): Promise<Portfolio> {
     const portfolio = await PortfolioModel.findOne({
+      include: [
+        {
+          model: PortfolioShareItemModel,
+          as: "shareItems",
+          include: [
+            {
+              model: ShareModel,
+              include: [
+                {
+                  model: ShareRateUpdateModel,
+                  as: "shareRateUpdates",
+                },
+              ],
+            },
+          ],
+        },
+      ],
       where: {
         id: portfolioId,
         userId,
@@ -100,6 +155,23 @@ export class PortfolioPortAdapter implements PortfolioPort {
   }
   async retrieveAllPortfoliosByUserId(userId: number): Promise<Portfolio[]> {
     const portfolios = await PortfolioModel.findAll({
+      include: [
+        {
+          model: PortfolioShareItemModel,
+          as: "shareItems",
+          include: [
+            {
+              model: ShareModel,
+              include: [
+                {
+                  model: ShareRateUpdateModel,
+                  as: "shareRateUpdates",
+                },
+              ],
+            },
+          ],
+        },
+      ],
       where: {
         userId,
       },

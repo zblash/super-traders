@@ -1,0 +1,452 @@
+{
+	"info": {
+		"_postman_id": "8576e6ae-683e-417a-9032-6ed481de0793",
+		"name": "Super Traders API Endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36259399"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "Retrieve All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve User By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/{{user_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"TEST\",\n    \"email\": \"test@test.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"name\": \"TEST2\",\n    \"email\": \"test2@test.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "portfolios",
+			"item": [
+				{
+					"name": "Retrieve All Portfolios of user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/portfolios?userId={{user_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"portfolios"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "{{user_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Portfolio By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/portfolios/{{portfolio_id}}?userId={{user_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"portfolios",
+								"{{portfolio_id}}"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "{{user_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Portfolio",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Test Portfolio\",\n    \"userId\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/portfolios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"portfolios"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "shares",
+			"item": [
+				{
+					"name": "Retrieve All Shares",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/shares",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"shares"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Share By Symbol",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/shares/symbol/{{share_symbol\n}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"shares",
+								"symbol",
+								"{{share_symbol\n}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Share By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/shares/id/{{share_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"shares",
+								"id",
+								"{{share_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Share",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"symbol\": \"KCC\",\n    \"rate\": 100\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/shares",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"shares"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Share Rate",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"shareId\": 1,\n    \"rate\": 170,\n    \"userId\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/shares/update-rate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"shares",
+								"update-rate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "trades",
+			"item": [
+				{
+					"name": "Retrieve All Share Trades By User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/trades?shareId={{share_id}}&userId={{user_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"trades"
+							],
+							"query": [
+								{
+									"key": "shareId",
+									"value": "{{share_id}}"
+								},
+								{
+									"key": "userId",
+									"value": "{{user_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve All Share Trades",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/trades?shareId={{share_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"trades"
+							],
+							"query": [
+								{
+									"key": "shareId",
+									"value": "{{share_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buy Share",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": 1,\n    \"portfolioId\": 1,\n    \"shareId\": 1,\n    \"quantity\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/trades/buy",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"trades",
+								"buy"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sell Share",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": 1,\n    \"portfolioId\": 1,\n    \"shareId\": 1,\n    \"quantity\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/trades/sell",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"trades",
+								"sell"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000"
+		},
+		{
+			"key": "user_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "portfolio_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "share_symbol\n",
+			"value": "APL",
+			"type": "string"
+		},
+		{
+			"key": "share_id",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}

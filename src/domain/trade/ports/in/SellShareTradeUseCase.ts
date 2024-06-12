@@ -8,12 +8,15 @@ import { TradePort } from "../out/TradePort";
 import { SellShareTradeCommand } from "../../commands/SellShareTradeCommand";
 import { RemoveShareFromPortfolioUseCase } from "../../../portfolio/ports/in/RemoveShareFromPortfolioUseCase";
 import { DomainError } from "../../../common/error/DomainError";
+import { AuthorizationFacade } from "../../../authorization/AuthorizationFacade";
 
 @injectable()
 export class SellShareTradeUseCase
   implements UseCase<SellShareTradeCommand, Promise<Trade>>
 {
   public constructor(
+    @inject("AuthorizationFacade")
+    private authorizationFacade: AuthorizationFacade,
     @inject("RetrievePortfolioByIdUseCase")
     private retrievePortfolioByIdUseCase: RetrievePortfolioByIdUseCase,
     @inject("RemoveShareFromPortfolioUseCase")
@@ -23,6 +26,7 @@ export class SellShareTradeUseCase
 
   @ValidateBeforeExecution()
   async execute(command: SellShareTradeCommand): Promise<Trade> {
+    await this.authorizationFacade.authorizeUser(command.userId);
     const portfolio = await this.retrievePortfolioByIdUseCase.execute({
       portfolioId: command.portfolioId,
       userId: command.userId,
@@ -41,7 +45,7 @@ export class SellShareTradeUseCase
     }
 
     const allTrades = await this.tradePort.retrieveAllTradesByShareId(
-      command.shareId,
+      command.shareId
     );
 
     const trades = allTrades.map((trade) => {
@@ -52,15 +56,16 @@ export class SellShareTradeUseCase
     });
 
     if (allTrades.length > 0) {
-      const buyTrades = trades.filter(
-        (trade) => trade.type === TradeType.BUY
-      );
+      const buyTrades = trades.filter((trade) => trade.type === TradeType.BUY);
 
       const sellTrades = trades.filter(
         (trade) => trade.type === TradeType.SELL
       );
 
-      if (sellTrades.reduce((p, c) => p + c.quantity, 0) + command.quantity > buyTrades.reduce((p, c) => p + c.quantity, 0)) {
+      if (
+        sellTrades.reduce((p, c) => p + c.quantity, 0) + command.quantity >
+        buyTrades.reduce((p, c) => p + c.quantity, 0)
+      ) {
         throw new DomainError("Cannot sell more shares than were bought");
       }
     }

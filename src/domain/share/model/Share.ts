@@ -8,6 +8,9 @@ export class Share {
   ) {}
 
   public addRateUpdate(rate: ShareRateUpdate) {
+    if (!this.shareRateUpdates) {
+      this.shareRateUpdates = [];
+    }
     this.shareRateUpdates.push(rate);
   }
 

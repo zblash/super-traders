@@ -34,6 +34,7 @@ import { SharePortAdapter } from "./share/adapters/SharePortAdapter";
 import { ShareRateUpdatePortAdapter } from "./share/adapters/ShareRateUpdatePortAdapter";
 import { PortfolioPortAdapter } from "./portfolio/adapters/PortfolioPortAdapter";
 import { TradePortAdapter } from "./trade/adapters/TradePortAdapter";
+import { AuthorizationFacade } from "../domain/authorization/AuthorizationFacade";
 
 export const DiContainer = (function () {
   let diContainer: Container;
@@ -61,6 +62,9 @@ export const DiContainer = (function () {
   }
 
   function configureDomainDependencies() {
+    diContainer
+      .bind<AuthorizationFacade>("AuthorizationFacade")
+      .to(AuthorizationFacade);
     diContainer
       .bind<AddShareToPortfolioUseCase>("AddShareToPortfolioUseCase")
       .to(AddShareToPortfolioUseCase);

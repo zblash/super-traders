@@ -5,17 +5,21 @@ import { UseCase } from "../../../common/helper/UseCase";
 import { ValidateBeforeExecution } from "../../../common/validations/UseCaseValidator";
 import { RemoveShareFromPortfolioCommand } from "../../commands/RemoveShareFromPortfolioCommand";
 import { DomainError } from "../../../common/error/DomainError";
+import { AuthorizationFacade } from "../../../authorization/AuthorizationFacade";
 
 @injectable()
 export class RemoveShareFromPortfolioUseCase
   implements UseCase<RemoveShareFromPortfolioCommand, Promise<Portfolio>>
 {
   public constructor(
+    @inject("AuthorizationFacade")
+    private authorizationFacade: AuthorizationFacade,
     @inject("PortfolioPort") private portfolioPort: PortfolioPort
   ) {}
 
   @ValidateBeforeExecution()
   async execute(command: RemoveShareFromPortfolioCommand): Promise<Portfolio> {
+    await this.authorizationFacade.authorizeUser(command.userId);
     const portfolio = await this.portfolioPort.retrievePortfolioByIdAndUserId(
       command.portfolioId,
       command.userId

@@ -8,12 +8,15 @@ import { RetrieveShareByIdUseCase } from "../../../share/ports/in/share/Retrieve
 import { TradeType } from "../../model/TradeType";
 import { TradePort } from "../out/TradePort";
 import { AddShareToPortfolioUseCase } from "../../../portfolio/ports/in/AddShareToPortfolioUseCase";
+import { AuthorizationFacade } from "../../../authorization/AuthorizationFacade";
 
 @injectable()
 export class BuyShareTradeUseCase
   implements UseCase<BuyShareTradeCommand, Promise<Trade>>
 {
   public constructor(
+    @inject("AuthorizationFacade")
+    private authorizationFacade: AuthorizationFacade,
     @inject("RetrievePortfolioByIdUseCase")
     private retrievePortfolioByIdUseCase: RetrievePortfolioByIdUseCase,
     @inject("AddShareToPortfolioUseCase")
@@ -25,7 +28,8 @@ export class BuyShareTradeUseCase
 
   @ValidateBeforeExecution()
   async execute(command: BuyShareTradeCommand): Promise<Trade> {
-    const portfolio = await this.retrievePortfolioByIdUseCase.execute({
+    await this.authorizationFacade.authorizeUser(command.userId);
+    await this.retrievePortfolioByIdUseCase.execute({
       portfolioId: command.portfolioId,
       userId: command.userId,
     });

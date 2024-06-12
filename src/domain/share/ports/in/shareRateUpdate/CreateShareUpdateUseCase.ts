@@ -6,12 +6,15 @@ import { CreateShareRateUpdateCommand } from "../../../commands/shareRateUpdate/
 import { ShareRateUpdate } from "../../../model/ShareRateUpdate";
 import { RetrieveAllPortfoliosByUserUseCase } from "../../../../portfolio/ports/in/RetrieveAllPortfoliosByUserUseCase";
 import { DomainError } from "../../../../common/error/DomainError";
+import { AuthorizationFacade } from "../../../../authorization/AuthorizationFacade";
 
 @injectable()
 export class CreateShareRateUpdateUseCase
   implements UseCase<CreateShareRateUpdateCommand, Promise<ShareRateUpdate>>
 {
   public constructor(
+    @inject("AuthorizationFacade")
+    private authorizationFacade: AuthorizationFacade,
     @inject("ShareRateUpdatePort")
     private shareRateUpdatePort: ShareRateUpdatePort,
     @inject("RetrieveAllPortfoliosByUserUseCase")
@@ -22,6 +25,7 @@ export class CreateShareRateUpdateUseCase
   async execute(
     command: CreateShareRateUpdateCommand
   ): Promise<ShareRateUpdate> {
+    await this.authorizationFacade.authorizeUser(command.userId);
     const portfolios = await this.retrieveAllPortfoliosByUserUseCase.execute({
       userId: command.userId,
     });

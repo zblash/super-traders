@@ -15,35 +15,38 @@ export interface PortfolioInstance
   extends Model<PortfolioAttributes, PortfolioCreationAttributes>,
     PortfolioAttributes {}
 
-const PortfolioModel = sequelize.define<PortfolioInstance>("Portfolio", {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  userId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: "User",
-      key: "id",
+const PortfolioModel = sequelize.define<PortfolioInstance>(
+  "Portfolio",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "User",
+        key: "id",
+      },
     },
   },
-}, {
-  timestamps: false,
-  tableName: 'portfolios',
-});
+  {
+    timestamps: false,
+    tableName: "portfolios",
+  }
+);
 
 PortfolioModel.hasMany(PortfolioShareItemModel, {
   foreignKey: "portfolioId",
   sourceKey: "id",
   as: "shareItems",
 });
-
 
 PortfolioShareItemModel.belongsTo(PortfolioModel, {
   foreignKey: "portfolioId",
