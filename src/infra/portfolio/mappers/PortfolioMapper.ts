@@ -19,7 +19,9 @@ export const PortfolioMapper = (function () {
     return new Portfolio(
       portfolio.id,
       portfolio.name,
-      portfolio["shareItems"]?.map(toPortfolioShareItem),
+      portfolio["shareItems"]
+        ? portfolio["shareItems"].map(toPortfolioShareItem)
+        : [],
       portfolio.userId
     );
   }

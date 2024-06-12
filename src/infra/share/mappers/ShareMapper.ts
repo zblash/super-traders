@@ -8,7 +8,7 @@ export const ShareMapper = (function () {
     return new Share(
       share.id,
       share.symbol,
-      share["shareRateUpdates"]?.map(toShareRateUpdateDomainModel)
+      share["shareRateUpdates"] ? share["shareRateUpdates"]?.map(toShareRateUpdateDomainModel) : []
     );
   }
 
