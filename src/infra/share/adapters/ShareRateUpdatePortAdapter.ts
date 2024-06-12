@@ -14,7 +14,7 @@ export class ShareRateUpdatePortAdapter implements ShareRateUpdatePort {
       shareId: command.shareId,
       userId: command.userId,
       isSystemUpdate: false,
-      rate: command.rate,
+      rate: Number(command.rate.toFixed(2)),
       date: Date.now(),
     });
 
@@ -27,7 +27,7 @@ export class ShareRateUpdatePortAdapter implements ShareRateUpdatePort {
       shareId: command.shareId,
       userId: null,
       isSystemUpdate: true,
-      rate: command.rate,
+      rate: Number(command.rate.toFixed(2)),
       date: Date.now(),
     });
 
@@ -40,8 +40,13 @@ export class ShareRateUpdatePortAdapter implements ShareRateUpdatePort {
     const shareRateUpdates = await ShareRateUpdateModel.findAll({
       where: { shareId, userId },
       order: [["date", "DESC"]],
+      limit: 1,
     });
 
+    if (shareRateUpdates.length === 0) {
+      return null;
+    }
+    
     return ShareMapper.toShareRateUpdateDomainModel(shareRateUpdates[0]);
   }
 }
