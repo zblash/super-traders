@@ -51,6 +51,9 @@ module.exports = {
         allowNull: false,
       },
     });
+
+    queryInterface.addIndex("trades", ["shareId", "userId"]);
+    queryInterface.addIndex("trades", ["userId"]);
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable("trades");

@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("portfolioShareItems", {
+    await queryInterface.createTable("shareRateUpdates", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -10,28 +10,38 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       shareId: {
-        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: "shares",
           key: "id",
         },
-      },
-      portfolioId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+      },
+      userId: {
+        allowNull: true,
         references: {
-          model: "shares",
+          model: "users",
           key: "id",
         },
-      },
-      quantity: {
         type: Sequelize.INTEGER,
+      },
+      isSystemUpdate: {
+        type: Sequelize.BOOLEAN,
+      },
+      rate: {
         allowNull: false,
+        type: Sequelize.DECIMAL(10, 2),
+      },
+      date: {
+        allowNull: false,
+        type: Sequelize.FLOAT,
       },
     });
+
+    await queryInterface.addIndex("shareRateUpdates", ["shareId", "userId"]);
+    await queryInterface.addIndex("shareRateUpdates", ["date"]);
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("portfolioShareItems");
+    await queryInterface.dropTable("shareRateUpdates");
   },
 };

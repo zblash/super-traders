@@ -4,6 +4,8 @@
   "description": "",
   "license": "MIT",
   "scripts": {
+    "migrate": "cd src/infra/db; npx sequelize-cli db:migrate; cd -",
+    "seed": "cd src/infra/db; npx sequelize-cli db:seed:all; cd -",
     "build": "rm -rf build; tsc -p tsconfig.json",
     "start": "node build/src/server.js",
     "dev": "ts-node-dev --respawn --watch src ./src/server.ts",
