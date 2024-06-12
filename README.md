@@ -39,6 +39,8 @@
    pnpm run dev
    ```
 
+\*\*You can use docker-compose file to create instance of Postgresql otherwise you should update /src/infra/db/config/config.json
+
 ## Technologies Used
 
 - **Fastify**: A fast and low-overhead web framework for Node.js.
